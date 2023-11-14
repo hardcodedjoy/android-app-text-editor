@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Text Editor</string>
+    <string name="save_as">save as</string>
+    <string name="open">open</string>
+    <string name="about">about</string>
+    <string name="settings">settings</string>
+    <string name="app_developed_by">App. developed by:</string>
+    <string name="dev_website">https://hardcodedjoy.com</string>
+</resources>

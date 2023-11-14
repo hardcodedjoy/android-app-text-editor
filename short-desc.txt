@@ -1,0 +1,1 @@
+Plain text editor for Android. Many file extensions supported.

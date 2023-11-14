@@ -1,0 +1,1 @@
+This app displays the text from a file that is provided via Intent.ACTION_VIEW, Intent.ACTION_EDIT or Intent.ACTION_SEND. Many file extensions are supported that are considered to contain plain text. App also accepts text that is selected from other app and shared to this app.

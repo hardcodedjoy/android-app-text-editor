@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.hardcodedjoy.example.texteditor">
+
+    <application
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:label="@string/app_name"
+        android:allowBackup="false"
+        android:supportsRtl="false">
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTop"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" android:scheme="file" />
+                <data android:mimeType="text/html" android:scheme="file" />
+                <data android:mimeType="text/css" android:scheme="file" />
+                <data android:mimeType="text/xml" android:scheme="file" />
+                <data android:mimeType="application/octet-stream" android:scheme="file" />
+                <data android:mimeType="application/json" android:scheme="file" />
+                <data android:mimeType="application/x-httpd-php" android:scheme="file" />
+                <data android:mimeType="text/x-java" android:scheme="file" />
+                <data android:mimeType="text/x-csrc" android:scheme="file" />
+                <data android:mimeType="text/x-c++src" android:scheme="file" />
+                <data android:mimeType="text/x-chdr" android:scheme="file" />
+                <data android:mimeType="text/calendar" android:scheme="file" />
+                <data android:mimeType="text/x-python" android:scheme="file" />
+                <data android:mimeType="text/cfg" android:scheme="file" />
+                <data android:mimeType="text/ini" android:scheme="file" />
+                <data android:mimeType="text/x-vcard" android:scheme="file" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" android:scheme="content" />
+                <data android:mimeType="text/html" android:scheme="content" />
+                <data android:mimeType="text/css" android:scheme="content" />
+                <data android:mimeType="text/xml" android:scheme="content" />
+                <data android:mimeType="application/octet-stream" android:scheme="content" />
+                <data android:mimeType="application/json" android:scheme="content" />
+                <data android:mimeType="application/x-httpd-php" android:scheme="content" />
+                <data android:mimeType="text/x-java" android:scheme="content" />
+                <data android:mimeType="text/x-csrc" android:scheme="content" />
+                <data android:mimeType="text/x-c++src" android:scheme="content" />
+                <data android:mimeType="text/x-chdr" android:scheme="content" />
+                <data android:mimeType="text/calendar" android:scheme="content" />
+                <data android:mimeType="text/x-python" android:scheme="content" />
+                <data android:mimeType="text/cfg" android:scheme="content" />
+                <data android:mimeType="text/ini" android:scheme="content" />
+                <data android:mimeType="text/x-vcard" android:scheme="content" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.EDIT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" android:scheme="file" />
+                <data android:mimeType="text/html" android:scheme="file" />
+                <data android:mimeType="text/css" android:scheme="file" />
+                <data android:mimeType="text/xml" android:scheme="file" />
+                <data android:mimeType="application/octet-stream" android:scheme="file" />
+                <data android:mimeType="application/json" android:scheme="file" />
+                <data android:mimeType="application/x-httpd-php" android:scheme="file" />
+                <data android:mimeType="text/x-java" android:scheme="file" />
+                <data android:mimeType="text/x-csrc" android:scheme="file" />
+                <data android:mimeType="text/x-c++src" android:scheme="file" />
+                <data android:mimeType="text/x-chdr" android:scheme="file" />
+                <data android:mimeType="text/calendar" android:scheme="file" />
+                <data android:mimeType="text/x-python" android:scheme="file" />
+                <data android:mimeType="text/cfg" android:scheme="file" />
+                <data android:mimeType="text/ini" android:scheme="file" />
+                <data android:mimeType="text/x-vcard" android:scheme="file" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.EDIT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" android:scheme="content" />
+                <data android:mimeType="text/html" android:scheme="content" />
+                <data android:mimeType="text/css" android:scheme="content" />
+                <data android:mimeType="text/xml" android:scheme="content" />
+                <data android:mimeType="application/octet-stream" android:scheme="content" />
+                <data android:mimeType="application/json" android:scheme="content" />
+                <data android:mimeType="application/x-httpd-php" android:scheme="content" />
+                <data android:mimeType="text/x-java" android:scheme="content" />
+                <data android:mimeType="text/x-csrc" android:scheme="content" />
+                <data android:mimeType="text/x-c++src" android:scheme="content" />
+                <data android:mimeType="text/x-chdr" android:scheme="content" />
+                <data android:mimeType="text/calendar" android:scheme="content" />
+                <data android:mimeType="text/x-python" android:scheme="content" />
+                <data android:mimeType="text/cfg" android:scheme="content" />
+                <data android:mimeType="text/ini" android:scheme="content" />
+                <data android:mimeType="text/x-vcard" android:scheme="content" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+                <data android:mimeType="text/html" />
+                <data android:mimeType="text/css" />
+                <data android:mimeType="text/xml" />
+                <data android:mimeType="application/octet-stream" />
+                <data android:mimeType="application/json" />
+                <data android:mimeType="application/x-httpd-php" />
+                <data android:mimeType="text/x-java" />
+                <data android:mimeType="text/x-csrc" />
+                <data android:mimeType="text/x-c++src" />
+                <data android:mimeType="text/x-chdr" />
+                <data android:mimeType="text/calendar" />
+                <data android:mimeType="text/x-python" />
+                <data android:mimeType="text/cfg" />
+                <data android:mimeType="text/ini" />
+                <data android:mimeType="text/x-vcard" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".AboutActivity"
+            android:launchMode="singleTop"
+            android:exported="true">
+        </activity>
+    </application>
+</manifest>

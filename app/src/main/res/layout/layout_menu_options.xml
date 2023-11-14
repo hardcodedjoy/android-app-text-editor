@@ -1,0 +1,51 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#FF303030"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <Button
+        android:id="@+id/btn_open"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|left"
+        android:background="#FF303030"
+        android:textColor="#FFFFFFFF"
+        android:textSize="18sp"
+        android:text="@string/open" />
+
+    <Button
+        android:id="@+id/btn_save_as"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|left"
+        android:background="#FF303030"
+        android:textColor="#FFFFFFFF"
+        android:textSize="18sp"
+        android:text="@string/save_as" />
+
+    <Button
+        android:id="@+id/btn_about"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|left"
+        android:background="#FF303030"
+        android:textColor="#FFFFFFFF"
+        android:textSize="18sp"
+        android:text="@string/about" />
+
+    <Button
+        android:id="@+id/btn_settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|left"
+        android:background="#FF303030"
+        android:textColor="#FFFFFFFF"
+        android:textSize="18sp"
+        android:text="@string/settings"
+        android:visibility="gone"/>
+
+</LinearLayout>
