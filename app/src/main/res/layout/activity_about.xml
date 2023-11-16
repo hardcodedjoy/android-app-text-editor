@@ -1,15 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+MIT License
+
+Copyright © 2023 HARDCODED JOY S.R.L. (https://hardcodedjoy.com)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+-->
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="?android:colorBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FF303030"
+        android:background="?android:colorForeground"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:orientation="horizontal">
@@ -19,7 +45,7 @@
             android:layout_height="40dp"
             android:layout_margin="5dp"
             android:src="@drawable/ic_info"
-            android:tint="#FFFFFFFF"
+            android:tint="?android:colorBackground"
             android:layout_gravity="center_vertical|right"
             tools:ignore="ContentDescription" />
 
@@ -29,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_gravity="center_vertical|left"
-            android:textColor="#FFFFFFFF"
+            android:textColor="?android:colorBackground"
             android:textSize="22sp"
             android:text="@string/about"/>
 
@@ -50,16 +76,11 @@
                 android:id="@+id/tv_app_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textColor="@color/colorText"
-                android:text="[appName]"
-                tools:ignore="HardcodedText" />
+                android:text="@string/app_name" />
             <TextView
                 android:id="@+id/tv_app_version"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textColor="@color/colorText"
                 android:text="[appVersion]"
                 tools:ignore="HardcodedText"
                 android:layout_marginBottom="20sp"/>
@@ -68,8 +89,6 @@
                 android:id="@+id/tv_app_developed_by"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textColor="@color/colorText"
                 android:text="@string/app_developed_by"/>
             <ImageView
                 android:id="@+id/iv_dev_logo"
@@ -81,8 +100,6 @@
                 android:id="@+id/tv_dev_website"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textColor="@color/colorLink"
                 android:layout_marginBottom="10sp"
                 android:text="@string/dev_website" />
 
@@ -100,17 +117,14 @@
                     android:layout_height="40dp"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/ic_instagram_icon_by_hardcodedjoy"
-                    android:tint="@color/colorText"
+                    android:tint="?android:colorForeground"
                     tools:ignore="ContentDescription,RtlHardcoded" />
 
                 <TextView
                     android:id="@+id/tv_insta_page"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="\@hardcodedjoy"
-                    android:textSize="20sp"
-                    android:textColor="@color/colorLink"
-                    tools:ignore="HardcodedText" />
+                    android:text="@string/dev_instagram_page" />
 
             </LinearLayout>
 
@@ -128,17 +142,14 @@
                     android:layout_height="40dp"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/ic_youtube_icon_by_hardcodedjoy"
-                    android:tint="@color/colorText"
+                    android:tint="?android:colorForeground"
                     tools:ignore="ContentDescription,RtlHardcoded" />
 
                 <TextView
                     android:id="@+id/tv_youtube_channel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="\@hardcoded_joy"
-                    android:textSize="20sp"
-                    android:textColor="@color/colorLink"
-                    tools:ignore="HardcodedText" />
+                    android:text="@string/dev_youtube_handle" />
 
             </LinearLayout>
 
@@ -156,16 +167,14 @@
                     android:layout_height="40dp"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/github_mark"
+                    android:tint="?android:colorForeground"
                     tools:ignore="ContentDescription,RtlHardcoded" />
 
                 <TextView
                     android:id="@+id/tv_github"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="hardcodedjoy"
-                    android:textSize="20sp"
-                    android:textColor="@color/colorLink"
-                    tools:ignore="HardcodedText" />
+                    android:text="@string/dev_github_page" />
 
             </LinearLayout>
         </LinearLayout>

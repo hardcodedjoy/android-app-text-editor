@@ -24,27 +24,9 @@ SOFTWARE.
 
 */
 
-package com.hardcodedjoy.example.texteditor;
+package com.hardcodedjoy.util;
 
-import android.content.ClipData;
-import android.content.Intent;
-import android.net.Uri;
-
-public class UriFromIntent {
-
-    static public Uri get(Intent intent) {
-        if(android.os.Build.VERSION.SDK_INT < 16) { return intent.getData(); }
-
-        ClipData clipData = intent.getClipData();
-
-        if(clipData != null) {
-            if(clipData.getItemCount() > 0) {
-                return clipData.getItemAt(0).getUri();
-            } else {
-                return null;
-            }
-        } else {
-            return intent.getData();
-        }
-    }
+public interface SetGetter {
+    void set(String value);
+    String get();
 }

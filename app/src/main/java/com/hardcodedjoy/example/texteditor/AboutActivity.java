@@ -27,6 +27,7 @@ SOFTWARE.
 package com.hardcodedjoy.example.texteditor;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
@@ -35,23 +36,29 @@ import android.text.method.LinkMovementMethod;
 import android.view.Window;
 import android.widget.TextView;
 
+import com.hardcodedjoy.util.ThemeUtil;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 public class AboutActivity extends Activity {
+
+    private Settings settings;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        settings = new Settings(getSharedPreferences(getPackageName(), Context.MODE_PRIVATE));
+        initGUI();
+    }
 
+    private void initGUI() {
         // we use our own title bar
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-        setContentView(R.layout.layout_about);
-
-        TextView tvAppName = findViewById(R.id.tv_app_name);
-        tvAppName.setText(getString(R.string.app_name));
+        ThemeUtil.set(this, settings.getTheme());
+        setContentView(R.layout.activity_about);
 
         setAppVersion(BuildConfig.VERSION_NAME, BuildConfig.TIMESTAMP);
 
@@ -105,6 +112,6 @@ public class AboutActivity extends Activity {
         tv.setText(fromHTML(s));
         tv.setClickable(true);
         tv.setMovementMethod(LinkMovementMethod.getInstance());
-        tv.setLinkTextColor(getResources().getColor(R.color.colorLink));
+        //tv.setLinkTextColor(getResources().getColor(an));
     }
 }

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
 MIT License
 
@@ -23,22 +24,28 @@ SOFTWARE.
 
 -->
 
-<resources>
-    <string name="app_name">Text Editor</string>
-    <string name="save_as">save as</string>
-    <string name="open">open</string>
-    <string name="about">about</string>
-    <string name="settings">settings</string>
-    <string name="app_developed_by">App. developed by:</string>
-    <string name="dev_website">https://hardcodedjoy.com</string>
-    <string name="dev_instagram_page">\@hardcodedjoy</string>
-    <string name="dev_youtube_handle">\@hardcoded_joy</string>
-    <string name="dev_github_page">hardcodedjoy</string>
-    <string name="new_file">new</string>
-    <string name="untitled">Untitled</string>
-    <string name="font_size">Font size</string>
-    <string name="theme">Theme</string>
-    <string name="light">Light</string>
-    <string name="dark">Dark</string>
-    <string name="system">System</string>
-</resources>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:left="5dp"
+        android:right="5dp"
+        android:bottom="5dp"
+        android:top="5dp">
+
+        <shape android:shape="rectangle" >
+            <corners
+                android:bottomLeftRadius="5dp"
+                android:bottomRightRadius="5dp"
+                android:topLeftRadius="5dp"
+                android:topRightRadius="5dp"/>
+            <padding
+                android:top="8dp"
+                android:bottom="8dp"
+                android:left="10dp"
+                android:right="10dp"/>
+            <stroke
+                android:width="2dp"
+                android:color="?android:colorFocusedHighlight" />
+            <solid android:color="#00000000" />
+        </shape>
+    </item>
+</layer-list>

@@ -1,4 +1,5 @@
-<!--
+/*
+
 MIT License
 
 Copyright © 2023 HARDCODED JOY S.R.L. (https://hardcodedjoy.com)
@@ -21,24 +22,29 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
--->
+*/
 
-<resources>
-    <string name="app_name">Text Editor</string>
-    <string name="save_as">save as</string>
-    <string name="open">open</string>
-    <string name="about">about</string>
-    <string name="settings">settings</string>
-    <string name="app_developed_by">App. developed by:</string>
-    <string name="dev_website">https://hardcodedjoy.com</string>
-    <string name="dev_instagram_page">\@hardcodedjoy</string>
-    <string name="dev_youtube_handle">\@hardcoded_joy</string>
-    <string name="dev_github_page">hardcodedjoy</string>
-    <string name="new_file">new</string>
-    <string name="untitled">Untitled</string>
-    <string name="font_size">Font size</string>
-    <string name="theme">Theme</string>
-    <string name="light">Light</string>
-    <string name="dark">Dark</string>
-    <string name="system">System</string>
-</resources>
+package com.hardcodedjoy.util;
+
+import android.content.ClipData;
+import android.content.Intent;
+import android.net.Uri;
+
+public class IntentUtil {
+
+    static public Uri getUri(Intent intent) {
+        if(android.os.Build.VERSION.SDK_INT < 16) { return intent.getData(); }
+
+        ClipData clipData = intent.getClipData();
+
+        if(clipData != null) {
+            if(clipData.getItemCount() > 0) {
+                return clipData.getItemAt(0).getUri();
+            } else {
+                return null;
+            }
+        } else {
+            return intent.getData();
+        }
+    }
+}

@@ -24,16 +24,70 @@ SOFTWARE.
 
 */
 
-package com.hardcodedjoy.example.texteditor;
+package com.hardcodedjoy.util;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.OpenableColumns;
 
-public class FileNameFromUri {
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
-    static public String get(Context context, Uri uri) {
+public class FileUriUtil {
+
+    static public void setContent(Context context, Uri uri, String content) {
+        try {
+            OutputStream os = context.getContentResolver().openOutputStream(uri, "wt");
+            os.write(content.getBytes("UTF-8"));
+            os.close();
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+        }
+    }
+
+    static public String getContentAsString(Context context, Uri uri) {
+
+        // NOTE: intended for small strings
+        // this will get the InputStream
+        // and read the entire stream to baos (to RAM)
+
+        InputStream is;
+
+        try {
+            is = context.getContentResolver().openInputStream(uri);
+            if(is == null) { return null; }
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            return null;
+        }
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] block = new byte[1024];
+        int bytesRead;
+        try {
+            while((bytesRead = is.read(block)) != -1) {
+                baos.write(block, 0, bytesRead);
+            }
+            is.close();
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            return null;
+        }
+
+        String s;
+        try {
+            s = baos.toString("UTF-8");
+            baos.close();
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            return null;
+        }
+        return s;
+    }
+
+    static public String getFileName(Context context, Uri uri) {
         String result = getFileNameFromContentURI(context, uri);
         if(result == null) { result = getFileNameFromFileURI(uri); }
         return result;

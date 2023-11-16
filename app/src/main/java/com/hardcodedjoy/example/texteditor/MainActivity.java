@@ -32,22 +32,27 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
+import com.hardcodedjoy.util.FileUriUtil;
+import com.hardcodedjoy.util.GuiUtil;
+import com.hardcodedjoy.util.IntentUtil;
+import com.hardcodedjoy.util.SoftKeyboard;
+import com.hardcodedjoy.util.ThemeUtil;
 
 public class MainActivity extends Activity {
 
     static private final int RQ_CODE_OPEN = 1;
     static private final int RQ_CODE_SAVE_AS = 2;
+    static private final int RQ_CODE_SETTINGS = 3;
+
+    private Settings settings;
 
     private TextView tvTitle;
     private LinearLayout llMenuOptions;
@@ -58,8 +63,22 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        settings = new Settings(getSharedPreferences(getPackageName(), Context.MODE_PRIVATE));
+        ThemeUtil.set(this, settings.getTheme());
+        restoreState(savedInstanceState);
         initGUI();
         processIntent(getIntent());
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(Keys.initialFileName, initialFileName);
+    }
+
+    private void restoreState(Bundle savedInstanceState) {
+        if(savedInstanceState == null) { return; }
+        initialFileName = savedInstanceState.getString(Keys.initialFileName, null);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -68,9 +87,13 @@ public class MainActivity extends Activity {
         // we use our own title bar in "layout_main"
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        setContentView(R.layout.layout_main);
+        setContentView(R.layout.activity_main);
+
         tvTitle = findViewById(R.id.tv_title);
+        if(initialFileName != null) { tvTitle.setText(initialFileName); }
+
         etText = findViewById(R.id.et_text);
+        etText.setTextSize(settings.getFontSize()); // size in ScaledPixels
 
         llMenuOptions = findViewById(R.id.ll_menu_options);
         findViewById(R.id.iv_menu).setOnClickListener(view -> {
@@ -79,31 +102,42 @@ public class MainActivity extends Activity {
             } else if(llMenuOptions.getVisibility() == View.GONE) {
                 llMenuOptions.setVisibility(View.VISIBLE);
                 etText.clearFocus();
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(etText.getWindowToken(), 0);
+                SoftKeyboard.hide(etText);
             }
         });
         llMenuOptions.setVisibility(View.GONE);
 
-        View.OnTouchListener menuOptionsHider = (v, event) -> {
+        etText.setOnTouchListener((v, event) -> {
             llMenuOptions.setVisibility(View.GONE);
             return false;
-        };
-        etText.setOnTouchListener(menuOptionsHider);
-        findViewById(R.id.sv_main).setOnTouchListener(menuOptionsHider);
+        });
 
-        findViewById(R.id.btn_open).setOnClickListener(view -> {
-            llMenuOptions.setVisibility(View.GONE);
-            onOpen();
+        findViewById(R.id.sv_main).setOnTouchListener((v, event) -> {
+            View child = ((ScrollView) v).getChildAt(0);
+            if(event.getAction() == MotionEvent.ACTION_DOWN && event.getY() > child.getHeight()) {
+                // touched on empty space inside ScrollView
+                llMenuOptions.setVisibility(View.GONE);
+                etText.requestFocus();
+                SoftKeyboard.show(etText);
+                etText.setSelection(etText.getText().length());
+                return true;
+            }
+            return false;
         });
-        findViewById(R.id.btn_save_as).setOnClickListener(view -> {
+
+        GuiUtil.setOnClickListenerToAllButtons(llMenuOptions, view -> {
             llMenuOptions.setVisibility(View.GONE);
-            onSaveAs();
-        });
-        findViewById(R.id.btn_about).setOnClickListener(view -> {
-            llMenuOptions.setVisibility(View.GONE);
-            Intent intent = new Intent(this, AboutActivity.class);
-            startActivity(intent);
+            int id = view.getId();
+            if(id == R.id.btn_new) { onNew(); }
+            if(id == R.id.btn_open) { onOpen(); }
+            if(id == R.id.btn_save_as) { onSaveAs(); }
+            if(id == R.id.btn_about) {
+                startActivity(new Intent(this, AboutActivity.class));
+            }
+            if(id == R.id.btn_settings) {
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivityForResult(intent, RQ_CODE_SETTINGS);
+            }
         });
     }
 
@@ -114,18 +148,18 @@ public class MainActivity extends Activity {
         String action = intent.getAction();
         if(action == null) { return; }
 
+        // to not process twice, for example at screen orientation change,
+        // we clear the intent action:
+        intent.setAction(null);
+
         switch(action) {
             case Intent.ACTION_MAIN:
-                etText.setText("");
+                onNew();
                 break;
             case Intent.ACTION_VIEW:
             case Intent.ACTION_EDIT:
             case Intent.ACTION_SEND:
-                try {
-                    open(intent);
-                } catch (Exception e) {
-                    e.printStackTrace(System.err);
-                }
+                open(intent);
                 break;
             default:
                 break;
@@ -134,32 +168,20 @@ public class MainActivity extends Activity {
 
     private void open(Intent intent) {
 
-        Log.d("vblog", "open() called");
-
-        initialUri = UriFromIntent.get(intent);
+        initialUri = IntentUtil.getUri(intent);
 
         // if what was shared to the app is a selected text and not a file, retrieve that text:
-        String text = null;
-        if(initialUri == null) { text = intent.getStringExtra(Intent.EXTRA_TEXT); }
-
-        // to not call open() again at screen orientation change, we clear the intent action:
-        intent.setAction(null);
-
         if(initialUri == null) {
+            String text = intent.getStringExtra(Intent.EXTRA_TEXT);
             if(text != null) { etText.setText(text); }
             return;
         }
 
-        initialFileName = FileNameFromUri.get(this, initialUri);
+        initialFileName = FileUriUtil.getFileName(this, initialUri);
         if(initialFileName != null) { tvTitle.setText(initialFileName); }
 
-        try {
-            InputStream is = getContentResolver().openInputStream(initialUri);
-            String fileContent = StringFromInputStream.get(is);
-            if(fileContent != null) { etText.setText(fileContent); }
-        } catch (Exception e) {
-            e.printStackTrace(System.err);
-        }
+        String fileContent = FileUriUtil.getContentAsString(this, initialUri);
+        if(fileContent != null) { etText.setText(fileContent); }
     }
 
     private void onOpen() {
@@ -168,6 +190,13 @@ public class MainActivity extends Activity {
         intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent = Intent.createChooser(intent, getString(R.string.open));
         startActivityForResult(intent, RQ_CODE_OPEN);
+    }
+
+    private void onNew() {
+        initialUri = null;
+        initialFileName = getString(R.string.untitled);
+        tvTitle.setText(initialFileName);
+        etText.setText("");
     }
 
     private void onSaveAs() {
@@ -194,14 +223,12 @@ public class MainActivity extends Activity {
             open(data);
         } else if(requestCode == RQ_CODE_SAVE_AS) {
             Uri uri = data.getData();
-            String text = etText.getText().toString();
-            try {
-                OutputStream os = getContentResolver().openOutputStream(uri, "wt");
-                os.write(text.getBytes(StandardCharsets.UTF_8));
-                os.close();
-            } catch (Exception e) {
-                e.printStackTrace(System.err);
-            }
+            String content = etText.getText().toString();
+            FileUriUtil.setContent(this, uri, content);
+            initialFileName = FileUriUtil.getFileName(this, uri);
+            tvTitle.setText(initialFileName);
+        } else if(requestCode == RQ_CODE_SETTINGS) {
+            recreate();
         }
     }
 
@@ -213,5 +240,6 @@ public class MainActivity extends Activity {
         }
 
         super.onBackPressed();
+        super.finish();
     }
 }

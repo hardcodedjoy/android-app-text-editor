@@ -1,4 +1,5 @@
-<!--
+/*
+
 MIT License
 
 Copyright © 2023 HARDCODED JOY S.R.L. (https://hardcodedjoy.com)
@@ -21,24 +22,25 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
--->
+*/
 
-<resources>
-    <string name="app_name">Text Editor</string>
-    <string name="save_as">save as</string>
-    <string name="open">open</string>
-    <string name="about">about</string>
-    <string name="settings">settings</string>
-    <string name="app_developed_by">App. developed by:</string>
-    <string name="dev_website">https://hardcodedjoy.com</string>
-    <string name="dev_instagram_page">\@hardcodedjoy</string>
-    <string name="dev_youtube_handle">\@hardcoded_joy</string>
-    <string name="dev_github_page">hardcodedjoy</string>
-    <string name="new_file">new</string>
-    <string name="untitled">Untitled</string>
-    <string name="font_size">Font size</string>
-    <string name="theme">Theme</string>
-    <string name="light">Light</string>
-    <string name="dark">Dark</string>
-    <string name="system">System</string>
-</resources>
+package com.hardcodedjoy.util;
+
+import android.content.Context;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+
+public class SoftKeyboard {
+
+    static public void show(View view) {
+        InputMethodManager imm = (InputMethodManager)
+                view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(view, 0);
+    }
+
+    static public void hide(View view) {
+        InputMethodManager imm = (InputMethodManager)
+                view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+}
